@@ -1,11 +1,10 @@
-"""DuckDB catalog and fleet registry loading."""
+"""Catalog and fleet registry loading."""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-import duckdb
 import pandas as pd
 
 from macchine.config import FLEET_REGISTRY_FILE, MERGED_TRACE_INDEX_FILE, METADATA_DIR, TRACE_INDEX_FILE
@@ -222,14 +221,6 @@ def load_pile_traces(
 
     return result
 
-
-def get_duckdb_connection(output_dir: Path) -> duckdb.DuckDBPyConnection:
-    """Get a DuckDB connection with trace index loaded as a view."""
-    index_path = output_dir / METADATA_DIR / TRACE_INDEX_FILE
-    con = duckdb.connect()
-    if index_path.exists():
-        con.execute(f"CREATE VIEW traces AS SELECT * FROM read_parquet('{index_path}')")
-    return con
 
 
 def load_fleet_registry(output_dir: Path) -> FleetRegistry:

@@ -13,18 +13,6 @@ METADATA_DIR = "metadata"
 TRACE_INDEX_FILE = "trace_index.parquet"
 MERGED_TRACE_INDEX_FILE = "merged_trace_index.parquet"
 FLEET_REGISTRY_FILE = "fleet_registry.json"
-QUALITY_DIR = "quality"
-
-# Known techniques
-TECHNIQUES = {
-    "SOB": "Continuous Flight Auger",
-    "KELLY": "Kelly Drilling",
-    "CUT": "Diaphragm Wall Cutter",
-    "SCM": "Soil Cement Mixing",
-    "GRAB": "Grab",
-    "DMS": "Deep Mixing",
-    "FREE": "Free Recording",
-}
 
 # Known machines (serial → model info)
 KNOWN_MACHINES = {
