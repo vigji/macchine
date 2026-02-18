@@ -331,3 +331,12 @@ Schlauchzugwinde L HTS:
 Schlauchzugwinde R HTS:
   canonical: hose_pull_winch_right_hts
   category: cutter
+Spuelluft_Druck:
+  canonical: flushing_air_pressure
+  category: pressure
+"Vorschub-Kraft":
+  canonical: feed_force_scm
+  category: force
+z-Abweichung:
+  canonical: z_deviation
+  category: deviation

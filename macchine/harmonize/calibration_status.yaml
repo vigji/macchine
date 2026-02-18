@@ -214,7 +214,7 @@ per_machine:
     bg45v_4027: uncalibrated  # 0–26000 (raw)
 
   Tiefe_Hauptwinde_GOK:
-    bg42v_5925: calibrated    # -38 to 6 m ✓
+    bg42v_5925: calibrated    # JSON: -38 to 6 m ✓; DAT: raw values up to 779000 (divisor issue)
     bg28h_6061: uncalibrated  # 0–3196002 (raw)
     bg33v_5610: uncalibrated  # -27 to 1803001 (raw)
     bg45v_4027: uncalibrated  # 0–2885000 (raw)
