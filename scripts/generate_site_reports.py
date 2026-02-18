@@ -55,6 +55,14 @@ DEFAULT_REPORT_DIR = OUTPUT_DIR / "reports"
 # Helpers
 # ---------------------------------------------------------------------------
 
+def _resolve_slug(slug: str) -> str:
+    """Map empty or 'unidentified' machine slugs to the 'unknown' directory name."""
+    s = str(slug).strip()
+    if not s or s == "unidentified":
+        return "unknown"
+    return s
+
+
 def _discover_sensor_columns(
     traces_dir: Path, site_id: str, site_traces: pd.DataFrame, max_per_machine: int = 5,
 ) -> dict[str, list[str]]:
@@ -62,7 +70,7 @@ def _discover_sensor_columns(
     sensor_cols: dict[str, set[str]] = {}
     for machine_slug, grp in site_traces.groupby("machine_slug"):
         cols: set[str] = set()
-        machine_dir = traces_dir / str(site_id) / str(machine_slug)
+        machine_dir = traces_dir / str(site_id) / _resolve_slug(machine_slug)
         if not machine_dir.exists():
             continue
         # Use trace_ids from the index — they point to actual parquet files
@@ -122,11 +130,11 @@ def _sample_traces(site_traces: pd.DataFrame, n: int = 15) -> pd.DataFrame:
 
 def _load_trace(traces_dir: Path, site_id: str, row: pd.Series) -> pd.DataFrame | None:
     """Load a single trace parquet, cleaning sentinels."""
-    machine_slug = row["machine_slug"]
+    machine_slug = _resolve_slug(row["machine_slug"])
     # For merged sessions, use the first constituent trace_id
     trace_ids = row["trace_ids"].split("|") if isinstance(row.get("trace_ids"), str) else [row["trace_id"]]
     for tid in trace_ids:
-        pf = traces_dir / str(site_id) / str(machine_slug) / f"{tid}.parquet"
+        pf = traces_dir / str(site_id) / machine_slug / f"{tid}.parquet"
         if pf.exists():
             try:
                 df = pd.read_parquet(pf)
