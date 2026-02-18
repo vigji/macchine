@@ -305,27 +305,25 @@ def _parse_data_lines(
 def _apply_scaling_corrections(
     sensors: list[SensorSeries], machine_slug: str
 ) -> list[SensorSeries]:
-    """Auto-correct missing divisors in DAT-parsed sensor values.
+    """Apply empirical correction divisors to DAT-parsed sensor values.
 
-    Uses physical range heuristics to detect when raw integer values
-    are in sub-units (centimeters, decibar, etc.) and applies the
-    appropriate divisor.
+    Uses a lookup table (dat_corrections.yaml) of correction factors
+    computed by comparing DAT header-only values against JSON ground truth.
+    This replaces the old heuristic (detect_dat_divisor) with deterministic,
+    validated corrections.
     """
-    from macchine.harmonize.calibration import detect_dat_divisor, is_calibrated
+    from macchine.harmonize.calibration import get_dat_correction
 
     for sensor in sensors:
-        # Only correct sensors with known physical ranges that are considered calibrated
-        if machine_slug and not is_calibrated(sensor.sensor_name, machine_slug):
-            continue
-
-        divisor = detect_dat_divisor(sensor.values, sensor.sensor_name)
-        if divisor > 1:
+        divisor = get_dat_correction(machine_slug, sensor.sensor_name)
+        if divisor != 1.0:
             sensor.values = [
                 v / divisor if v is not None else None for v in sensor.values
             ]
             logger.info(
-                "Auto-corrected %s: applied ÷%d (raw values in sub-units)",
+                "Corrected %s on %s: applied ÷%s (empirical correction)",
                 sensor.sensor_name,
+                machine_slug,
                 divisor,
             )
 

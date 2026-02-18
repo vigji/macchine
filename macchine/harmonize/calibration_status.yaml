@@ -62,43 +62,43 @@ calibrated:
 per_machine:
   Temperatur FRR:
     bg45v_3923: calibrated    # 0–71 °C ✓
-    cube0_482: uncalibrated   # 0–720 (raw)
-    mc86_621: uncalibrated    # 0–1300 (raw)
+    mc86_621: calibrated      # JSON calibrated; DAT corrected via dat_corrections.yaml (÷10)
+    cube0_482: uncalibrated   # 0–720 (raw, DAT only, no JSON ground truth)
 
   Wassergehalt Getriebeoel FRL:
     bg45v_3923: calibrated    # 0–100% ✓
+    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷10)
     cube0_482: uncalibrated   # 150–550 (raw)
-    mc86_621: uncalibrated    # 0–991 (raw)
 
   Wassergehalt Getriebeoel FRR:
     bg45v_3923: calibrated    # 0–100% ✓
+    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷10)
     cube0_482: uncalibrated   # 200–740 (raw)
-    mc86_621: uncalibrated    # 0–990 (raw)
 
   Leckagedruck Getriebe links:
     bg45v_3923: calibrated    # 0–0.3 bar ✓
+    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷1000)
     cube0_482: uncalibrated   # 0–430 (raw)
-    mc86_621: uncalibrated    # 0–190 (raw)
 
   Leckagedruck Getriebe rechts:
     bg45v_3923: calibrated    # 0–0.4 bar ✓
+    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷10000)
     cube0_482: uncalibrated   # 0–1603 (raw)
-    mc86_621: uncalibrated    # 0–3007 (raw)
 
   Oeldruck Getriebe links:
     bg45v_3923: calibrated    # 0–8.5 bar ✓
+    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷100)
     cube0_482: uncalibrated   # 10–450 (raw)
-    mc86_621: uncalibrated    # 0–880 (raw)
 
   Oeldruck Getriebe rechts:
     bg45v_3923: calibrated    # 0–8.5 bar ✓
+    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷100)
     cube0_482: uncalibrated   # 20–460 (raw)
-    mc86_621: uncalibrated    # 0–870 (raw)
 
   Seilkraft Fräswinde:
     bg45v_3923: calibrated    # 0–50 t ✓
+    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷100)
     cube0_482: uncalibrated   # 0–3050 (raw)
-    mc86_621: uncalibrated    # 0–3620 (raw)
 
   Drehzahl FRL:
     bg45v_3923: calibrated    # 0–43 rpm ✓

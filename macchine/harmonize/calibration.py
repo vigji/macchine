@@ -39,7 +39,7 @@ PHYSICAL_RANGES: dict[str, tuple[float, float]] = {
     "Druck Pumpe 4": (0, 1000),
     "Druck FRL": (0, 500),
     "Druck FRR": (0, 500),
-    "KDK Druck": (0, 500),
+    "KDK Druck": (0, 1000),
     "Betondruck": (0, 50),
     "Drehmoment": (0, 120),
     "DrehmomentkNm": (0, 1000),
@@ -73,6 +73,7 @@ PHYSICAL_RANGES: dict[str, tuple[float, float]] = {
 
 _CALIBRATION_PATH = Path(__file__).parent / "calibration_status.yaml"
 _DEFINITIONS_PATH = Path(__file__).parent / "sensor_definitions.yaml"
+_DAT_CORRECTIONS_PATH = Path(__file__).parent / "dat_corrections.yaml"
 
 # Known units for calibrated sensors (sensor_name -> unit string)
 SENSOR_UNITS = {
@@ -164,6 +165,30 @@ def _load_calibration_yaml() -> dict:
 def _load_sensor_defs() -> dict:
     with open(_DEFINITIONS_PATH) as f:
         return yaml.safe_load(f)
+
+
+@lru_cache(maxsize=1)
+def _load_dat_corrections() -> dict[str, dict[str, float]]:
+    """Load empirical DAT correction divisors from YAML.
+
+    Returns {machine_slug: {sensor_name: divisor}}.
+    """
+    if not _DAT_CORRECTIONS_PATH.exists():
+        return {}
+    with open(_DAT_CORRECTIONS_PATH) as f:
+        data = yaml.safe_load(f)
+    return data or {}
+
+
+def get_dat_correction(machine_slug: str, sensor_name: str) -> float:
+    """Get the empirical correction divisor for a DAT-parsed sensor.
+
+    Returns the divisor to apply AFTER the header-declared divisor.
+    Returns 1.0 if no correction is needed.
+    """
+    corrections = _load_dat_corrections()
+    machine_corr = corrections.get(machine_slug, {})
+    return float(machine_corr.get(sensor_name, 1.0))
 
 
 def get_calibrated_set() -> set[str]:
@@ -275,19 +300,12 @@ def clean_sentinels_df(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def detect_dat_divisor(values: list[float | None], sensor_name: str) -> int:
-    """Detect the likely correct divisor for a DAT-parsed sensor based on physical ranges.
+    """DEPRECATED: heuristic-based divisor detection.
 
-    The DAT format header often declares ``divisor=1`` for sensors whose raw
-    integer values are actually in sub-units (centimeters, decibar, etc.).
-    This function checks whether the parsed values exceed the expected physical
-    range and, if so, returns the divisor (10, 100, or 1000) that brings them
-    well within range.
-
-    Uses two signals:
-    1. **Magnitude**: the 90th-percentile absolute value vs the physical range
-    2. **Step size**: for integer-valued data, the median step between consecutive
-       values. A step of 2+ in a sensor with typical sub-unit resolution (like Tiefe
-       in meters) suggests the values are in sub-units.
+    This function is superseded by the empirical correction table in
+    dat_corrections.yaml (loaded via get_dat_correction). The heuristic
+    was unreliable — it over-corrected some sensors and under-corrected
+    others. Kept for backward compatibility with tests.
 
     Returns 1 if no correction is needed or the sensor has no known range.
     """
