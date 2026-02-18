@@ -1,0 +1,333 @@
+# Sensor name mapping: German original → English canonical name
+# Format: original_name: {canonical: english_name, category: category}
+
+# === Depth & Position ===
+Tiefe:
+  canonical: depth
+  category: position
+Vorschub Tiefe:
+  canonical: feed_depth
+  category: position
+Tiefe_Hauptwinde_GOK:
+  canonical: depth_main_winch_gok
+  category: position
+Tiefe_Bohrrohr_GOK:
+  canonical: depth_casing_gok
+  category: position
+Tiefe Winde 2:
+  canonical: depth_winch_2
+  category: position
+Bohrgrenze:
+  canonical: drilling_limit
+  category: position
+Rohrlaenge:
+  canonical: casing_length
+  category: position
+Diff_Werkzeug_Bohrrohrunterkante:
+  canonical: tool_casing_bottom_diff
+  category: position
+
+# === Torque & Rotation ===
+Drehmoment:
+  canonical: torque
+  category: torque
+DrehmomentkNm:
+  canonical: torque_knm
+  category: torque
+DrehmomentProzent:
+  canonical: torque_percent
+  category: torque
+Drehmomentstufen:
+  canonical: torque_stages
+  category: torque
+Drehzahl:
+  canonical: rotation_speed
+  category: rotation
+Drehrate:
+  canonical: rotation_rate
+  category: rotation
+Drehrichtung:
+  canonical: rotation_direction
+  category: rotation
+Drehzahl FRL:
+  canonical: rotation_speed_cutter_left
+  category: rotation
+Drehzahl FRR:
+  canonical: rotation_speed_cutter_right
+  category: rotation
+Drehzahl Pumpe:
+  canonical: rotation_speed_pump
+  category: rotation
+Drehzahl Rohr:
+  canonical: rotation_speed_casing
+  category: rotation
+Drehrichtung FRR:
+  canonical: rotation_direction_cutter_right
+  category: rotation
+Drehrichtung FRL:
+  canonical: rotation_direction_cutter_left
+  category: rotation
+Drehboden:
+  canonical: rotary_table
+  category: rotation
+KDK Drehzahl:
+  canonical: kdk_rotation_speed
+  category: rotation
+Anzahl der Umdrehungen:
+  canonical: revolution_count
+  category: rotation
+
+# === Force & Pressure ===
+Seilkraft Hauptwinde:
+  canonical: rope_force_main_winch
+  category: force
+Seilkraft Hilfswinde:
+  canonical: rope_force_auxiliary_winch
+  category: force
+"Seilkraft Fräswinde":
+  canonical: rope_force_cutter_winch
+  category: force
+Seilkraft:
+  canonical: rope_force
+  category: force
+Seilkraft Winde 2:
+  canonical: rope_force_winch_2
+  category: force
+Hakenlast Hauptwinde:
+  canonical: hook_load_main_winch
+  category: force
+Vorschub-KraftPM:
+  canonical: feed_force
+  category: force
+Auflast:
+  canonical: surcharge_load
+  category: force
+Eindringwiderstand:
+  canonical: penetration_resistance
+  category: force
+KDK Druck:
+  canonical: kdk_pressure
+  category: pressure
+Druck Pumpe 1:
+  canonical: pump_pressure_1
+  category: pressure
+Druck Pumpe 2:
+  canonical: pump_pressure_2
+  category: pressure
+Druck Pumpe 3:
+  canonical: pump_pressure_3
+  category: pressure
+Druck Pumpe 4:
+  canonical: pump_pressure_4
+  category: pressure
+Druck Pumpe:
+  canonical: pump_pressure
+  category: pressure
+Druck FRL:
+  canonical: pressure_cutter_left
+  category: pressure
+Druck FRR:
+  canonical: pressure_cutter_right
+  category: pressure
+Betondruck:
+  canonical: concrete_pressure
+  category: pressure
+Betondruck unten:
+  canonical: concrete_pressure_bottom
+  category: pressure
+"Susp.-Druck unten":
+  canonical: suspension_pressure_bottom
+  category: pressure
+"Susp.-Druck":
+  canonical: suspension_pressure
+  category: pressure
+"Susp.-Druck2":
+  canonical: suspension_pressure_2
+  category: pressure
+Oeldruck Getriebe rechts:
+  canonical: oil_pressure_gearbox_right
+  category: pressure
+Oeldruck Getriebe links:
+  canonical: oil_pressure_gearbox_left
+  category: pressure
+Leckagedruck Getriebe rechts:
+  canonical: leakage_pressure_gearbox_right
+  category: pressure
+Leckagedruck Getriebe links:
+  canonical: leakage_pressure_gearbox_left
+  category: pressure
+Leckoeldruck:
+  canonical: leak_oil_pressure
+  category: pressure
+"Schließzylinderdruck":
+  canonical: closing_cylinder_pressure
+  category: pressure
+
+# === Inclination ===
+Neigung X:
+  canonical: inclination_x
+  category: inclination
+Neigung Y:
+  canonical: inclination_y
+  category: inclination
+Neigung X Mast:
+  canonical: inclination_x_mast
+  category: inclination
+Neigung Y Mast:
+  canonical: inclination_y_mast
+  category: inclination
+Neigung gueltig:
+  canonical: inclination_valid
+  category: inclination
+Winkel DWS absolut:
+  canonical: angle_dws_absolute
+  category: inclination
+Winkel DWS Messung:
+  canonical: angle_dws_measurement
+  category: inclination
+Verdrehwinkel:
+  canonical: twist_angle
+  category: inclination
+
+# === Deviation ===
+Messpunktabw. X:
+  canonical: measuring_point_deviation_x
+  category: deviation
+Messpunktabw. Y:
+  canonical: measuring_point_deviation_y
+  category: deviation
+Abweichung X:
+  canonical: deviation_x
+  category: deviation
+Abweichung Y:
+  canonical: deviation_y
+  category: deviation
+x-Abweichung:
+  canonical: x_deviation
+  category: deviation
+y-Abweichung:
+  canonical: y_deviation
+  category: deviation
+Relativverschiebung:
+  canonical: relative_displacement
+  category: deviation
+
+# === Flow & Volume ===
+Betondurchfluss:
+  canonical: concrete_flow
+  category: flow
+Betonmenge:
+  canonical: concrete_volume
+  category: flow
+Gesamtbetonmenge:
+  canonical: total_concrete_volume
+  category: flow
+Durchfluss Pumpe:
+  canonical: pump_flow
+  category: flow
+Durchfluss Ruecklauf:
+  canonical: return_flow
+  category: flow
+Durchfluss Vorlauf:
+  canonical: feed_flow
+  category: flow
+"Susp.-Durchfl.":
+  canonical: suspension_flow
+  category: flow
+"Susp.-Durchfl.2":
+  canonical: suspension_flow_2
+  category: flow
+"Susp.-Mg":
+  canonical: suspension_volume
+  category: flow
+"Susp.-Mg2":
+  canonical: suspension_volume_2
+  category: flow
+"Susp.-Mg1+2":
+  canonical: suspension_volume_total
+  category: flow
+Menge pro Meter:
+  canonical: volume_per_meter
+  category: flow
+
+# === Speed ===
+Vorschubgeschwindigkeit:
+  canonical: feed_speed
+  category: speed
+Hauptwindengeschwindigkeit:
+  canonical: main_winch_speed
+  category: speed
+
+# === Temperature ===
+Temperatur FRL:
+  canonical: temperature_cutter_left
+  category: temperature
+Temperatur FRR:
+  canonical: temperature_cutter_right
+  category: temperature
+"Temp. Verteilergetriebe":
+  canonical: temperature_distribution_gearbox
+  category: temperature
+
+# === Status & Control ===
+Status Geraet:
+  canonical: device_status
+  category: status
+Status DWS:
+  canonical: status_dws
+  category: status
+Klappenprogrammnummer:
+  canonical: flap_program_number
+  category: status
+Stufenschalter_Hauptwinde:
+  canonical: step_switch_main_winch
+  category: status
+
+# === Cutter-specific ===
+"Fräszeit":
+  canonical: cutting_time
+  category: cutter
+Fraesenfortschritt:
+  canonical: cutter_progress
+  category: cutter
+Schlauchzugwinde L HDS:
+  canonical: hose_pull_winch_left_hds
+  category: cutter
+Schlauchzugwinde R HDS:
+  canonical: hose_pull_winch_right_hds
+  category: cutter
+Schlauchzugwinde 2 L HDS:
+  canonical: hose_pull_winch_2_left_hds
+  category: cutter
+Schlauchzugwinde 2 R HDS:
+  canonical: hose_pull_winch_2_right_hds
+  category: cutter
+Regenerationszeit:
+  canonical: regeneration_time
+  category: cutter
+Schliessgrad:
+  canonical: closing_degree
+  category: cutter
+
+# === Other ===
+Wassergehalt Getriebeoel FRL:
+  canonical: water_content_gearbox_oil_left
+  category: lubrication
+Wassergehalt Getriebeoel FRR:
+  canonical: water_content_gearbox_oil_right
+  category: lubrication
+Pitch:
+  canonical: pitch
+  category: other
+Ausladung:
+  canonical: reach
+  category: other
+Strom Kanal 1:
+  canonical: current_channel_1
+  category: electrical
+Schlauchzugwinde L HTS:
+  canonical: hose_pull_winch_left_hts
+  category: cutter
+Schlauchzugwinde R HTS:
+  canonical: hose_pull_winch_right_hts
+  category: cutter

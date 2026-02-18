@@ -1,0 +1,76 @@
+{
+  "token": "PASTE_BEARER_TOKEN_HERE",
+  "sections": [
+    {
+      "name": "01_lignano_part2",
+      "project_id": 4739,
+      "dir_id": 10652
+    },
+    {
+      "name": "02_vicenza_part1",
+      "project_id": 2405,
+      "dir_id": 4009
+    },
+    {
+      "name": "03_vicenza_part2",
+      "project_id": 2405,
+      "dir_id": 3426
+    },
+    {
+      "name": "04_invitalia_part1",
+      "project_id": 2440,
+      "dir_id": 3816
+    },
+    {
+      "name": "05_invitalia_part2",
+      "project_id": 2440,
+      "dir_id": 3952
+    },
+    {
+      "name": "06_paris_bg45v_part1",
+      "project_id": 3203,
+      "dir_id": 8044
+    },
+    {
+      "name": "07_paris_unidentified_part2",
+      "project_id": 3203,
+      "dir_id": 6530
+    },
+    {
+      "name": "08_paris_mc86_part1",
+      "project_id": 4257,
+      "dir_id": 9112
+    },
+    {
+      "name": "09_paris_mc86_unid_part2",
+      "project_id": 4257,
+      "dir_id": 9113
+    },
+    {
+      "name": "10_roma_acquedotto",
+      "project_id": 3189,
+      "dir_id": 6506
+    },
+    {
+      "name": "11_catania_gb50_part1",
+      "project_id": 4600,
+      "dir_id": 10496
+    },
+    {
+      "name": "12_catania_unid_part2",
+      "project_id": 4600,
+      "dir_id": 10173
+    },
+    {
+      "name": "13_misp",
+      "project_id": 5055,
+      "dir_id": 11540
+    },
+    {
+      "name": "14_lignano_json",
+      "project_id": 4739,
+      "dir_id": 10651,
+      "_comment": "Lignano JSON raw data (923 files, downloaded separately earlier)"
+    }
+  ]
+}
