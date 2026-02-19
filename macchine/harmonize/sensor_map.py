@@ -69,6 +69,18 @@ def get_all_mappings() -> dict[str, str]:
     return {name: info["canonical"] for name, info in sensor_map.items()}
 
 
+def get_reverse_mappings() -> dict[str, str]:
+    """Return all English → German mappings (reverse of get_all_mappings)."""
+    sensor_map = _load_sensor_map()
+    return {info["canonical"]: name for name, info in sensor_map.items()}
+
+
+def get_german_name(canonical: str) -> str:
+    """Get the German original name for an English canonical name."""
+    reverse = get_reverse_mappings()
+    return reverse.get(canonical, canonical)
+
+
 def get_categories() -> dict[str, list[str]]:
     """Return sensors grouped by category."""
     sensor_map = _load_sensor_map()

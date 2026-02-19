@@ -1,258 +1,82 @@
-# Sensor calibration status per machine.
+# Sensor calibration status.
 #
 # Status values:
 #   calibrated   — values are in expected engineering units
-#   uncalibrated — values are raw ADC counts or have wrong scaling; use "arb. units" on axes
-#   mixed        — calibrated on some machines, uncalibrated on others (see per-machine notes)
+#   uncalibrated — values are raw ADC counts or have wrong scaling
 #
-# Plausible physical ranges for reference:
-#   Temperature: 0–120 °C (hydraulic oil)
-#   Gearbox oil pressure: 0–10 bar
-#   Leakage pressure: 0–5 bar
-#   Inclination: ±45 degrees
-#   Water content: 0–100 %
-#   Rope force: 0–200 tonnes
-#   KDK rotation: 0–50 rpm
-#   Cutter rotation: 0–50 rpm
+# Calibration status is determined empirically by:
+#   1. Comparing DAT values against JSON ground truth (where both exist)
+#   2. Checking distributions against PHYSICAL_RANGES
+#   3. Running: python scripts/diagnose_sensor_distributions.py
 #
-# Sentinel values (indicating invalid/overflow, should be treated as NaN):
-#   9999, 99999, 999.9, 9999.0, 99991, 99106, 99039
+# After applying dat_corrections.yaml, most DAT sensors produce
+# physically plausible values. Remaining outliers are flagged by the
+# diagnostics script rather than hardcoded here.
 
-# ═══ Fully calibrated sensors (all machines) ═══
+# ═══ Fully calibrated sensors (all machines, both formats) ═══
+# These produce plausible engineering-unit values everywhere.
 calibrated:
-  - Tiefe                    # depth (m), 0–60 m typical
-  - Vorschub Tiefe           # feed depth (m)
-  - Tiefe Winde 2            # winch 2 depth (m)
-  - Drehmoment               # torque (% of max), 0–100
-  - Drehmomentstufen          # torque stages (discrete), 0–3
-  - Drehrichtung              # rotation direction, -1/0/1
-  - Drehrichtung FRL          # cutter left direction, -1/0/1
-  - Drehrichtung FRR          # cutter right direction, -1/0/1
-  - Druck FRL                 # cutter left pressure (bar), 0–400
-  - Druck FRR                 # cutter right pressure (bar), 0–400
-  - Druck Pumpe               # pump pressure generic (bar), 0–330
-  - Druck Pumpe 1             # pump 1 pressure (bar), 0–993
-  - Druck Pumpe 2             # pump 2 pressure (bar), 0–993
-  - Druck Pumpe 3             # pump 3 pressure (bar), 0–990
-  - Druck Pumpe 4             # pump 4 pressure (bar), 0–410
-  - Seilkraft                 # rope force (t), 0–99
-  - Seilkraft Hauptwinde      # main winch force (t), 0–980
-  - Neigung X                 # inclination X (deg), ±6
-  - Neigung X Mast            # mast inclination X (deg), ±40
-  - Auflast                   # surcharge load, 0–99
-  - Leckoeldruck              # leak oil pressure (bar), 0–12
-  - Temperatur FRL            # cutter left temp (°C), 0–87
-  - Susp.-Druck               # suspension pressure, 0–923
-  - Susp.-Druck2              # suspension pressure 2
-  - Susp.-Durchfl.            # suspension flow (l/min)
-  - Susp.-Durchfl.2           # suspension flow 2
-  - Susp.-Mg                  # suspension volume (m³)
-  - Susp.-Mg2                 # suspension volume 2
-  - Susp.-Mg1+2               # suspension volume total
-  - Menge pro Meter           # volume per meter (l/m)
-  - Drehzahl                  # rotation speed (rpm) — SCM mixing tool
-  - DrehmomentProzent         # torque percent (%)
-  - Vorschub-Kraft            # feed force — SCM
-  - Strom Kanal 1             # current channel 1
-  - Diff_Werkzeug_Bohrrohrunterkante  # tool-casing diff (m)
-
-# ═══ Per-machine calibration status ═══
-# Format: sensor → {machine: status}
-
-per_machine:
-  Temperatur FRR:
-    bg45v_3923: calibrated    # 0–71 °C ✓
-    mc86_621: calibrated      # JSON calibrated; DAT corrected via dat_corrections.yaml (÷10)
-    cube0_482: uncalibrated   # 0–720 (raw, DAT only, no JSON ground truth)
-
-  Wassergehalt Getriebeoel FRL:
-    bg45v_3923: calibrated    # 0–100% ✓
-    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷10)
-    cube0_482: uncalibrated   # 150–550 (raw)
-
-  Wassergehalt Getriebeoel FRR:
-    bg45v_3923: calibrated    # 0–100% ✓
-    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷10)
-    cube0_482: uncalibrated   # 200–740 (raw)
-
-  Leckagedruck Getriebe links:
-    bg45v_3923: calibrated    # 0–0.3 bar ✓
-    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷1000)
-    cube0_482: uncalibrated   # 0–430 (raw)
-
-  Leckagedruck Getriebe rechts:
-    bg45v_3923: calibrated    # 0–0.4 bar ✓
-    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷10000)
-    cube0_482: uncalibrated   # 0–1603 (raw)
-
-  Oeldruck Getriebe links:
-    bg45v_3923: calibrated    # 0–8.5 bar ✓
-    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷100)
-    cube0_482: uncalibrated   # 10–450 (raw)
-
-  Oeldruck Getriebe rechts:
-    bg45v_3923: calibrated    # 0–8.5 bar ✓
-    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷100)
-    cube0_482: uncalibrated   # 20–460 (raw)
-
-  Seilkraft Fräswinde:
-    bg45v_3923: calibrated    # 0–50 t ✓
-    mc86_621: calibrated      # JSON calibrated; DAT corrected (÷100)
-    cube0_482: uncalibrated   # 0–3050 (raw)
-
-  Drehzahl FRL:
-    bg45v_3923: calibrated    # 0–43 rpm ✓
-    cube0_482: uncalibrated   # 0–9232 (raw)
-    mc86_621: uncalibrated    # 0–9189 (raw)
-
-  Drehzahl FRR:
-    bg45v_3923: calibrated    # 0–41 rpm ✓
-    cube0_482: uncalibrated   # 0–96 (raw, possibly mislabeled units)
-    mc86_621: uncalibrated    # 0–94 (raw)
-
-  Neigung Y:
-    bg30v_2872: calibrated
-    bg33v_5610: calibrated
-    bg45v_3923: calibrated
-    bg45v_4027: calibrated
-    unidentified: calibrated
-    cube0_482: uncalibrated   # 0–995 (raw)
-    mc86_621: uncalibrated    # 0–992 (raw)
-
-  Neigung Y Mast:
-    bg42v_5925: calibrated
-    bg45v_4027: calibrated
-    unidentified: calibrated
-    bg30v_2872: uncalibrated  # -29 to 63 (slightly over range)
-    bg33v_5610: uncalibrated  # 0–14000 (raw)
-
-  Abweichung Y:
-    bg45v_3923: calibrated    # -11 to 2 mm ✓
-    cube0_482: uncalibrated   # 0–9447 (raw)
-    mc86_621: uncalibrated    # -2 to 9459 (raw)
-
-  Messpunktabw. Y:
-    bg45v_3923: calibrated
-    gb50_601: calibrated
-    cube0_482: uncalibrated   # -33500 to 10100 (raw)
-    mc86_621: uncalibrated    # -19300 to 5600 (raw)
-
-  DrehmomentkNm:
-    bg42v_5925: calibrated    # 0–420 kNm ✓
-    unidentified: calibrated  # 0–185 kNm ✓
-    bg28h_6061: uncalibrated  # 0–2500 (raw)
-    bg33v_5610: uncalibrated  # 0–9022 (raw)
-    bg45v_4027: uncalibrated  # 0–9023 (raw)
-
-  KDK Drehzahl:
-    bg30v_2872: calibrated    # 0–16 rpm ✓
-    unidentified: calibrated  # 0–32 rpm ✓
-    bg28h_6061: uncalibrated  # 0–9000 (raw)
-    bg33v_5610: uncalibrated  # 0–9000 (raw)
-    bg42v_5925: uncalibrated  # 0–56 (marginal)
-    bg45v_4027: uncalibrated  # 0–9000 (raw)
-
-  Seilkraft Hilfswinde:
-    bg30v_2872: calibrated    # 0–1.5 t ✓
-    bg42v_5925: calibrated    # 0–5.5 t ✓
-    bg28h_6061: uncalibrated  # 0–9900 (raw)
-    bg33v_5610: uncalibrated  # 0–9900 (raw)
-    bg45v_4027: uncalibrated  # 0–9900 (raw)
-
-  Seilkraft Winde 2:
-    gb50_601: uncalibrated    # 0–9165 (raw)
-
-  Verdrehwinkel:
-    gb50_601: uncalibrated    # 0–272400 (raw)
-
-  Vorschub-KraftPM:
-    bg30v_2872: calibrated    # ±35 kN ✓
-    bg42v_5925: calibrated    # ±58 kN ✓
-    unidentified: calibrated  # ±40 kN ✓
-    bg28h_6061: uncalibrated  # ±3300 (raw)
-    bg33v_5610: uncalibrated  # -3060 to 9912 (raw)
-    bg45v_4027: uncalibrated  # -5340 to 9921 (raw)
-
-  Vorschubgeschwindigkeit:
-    # All machines show values outside expected mm/s range → all uncalibrated
-    bg30v_2872: uncalibrated
-    bg33v_5610: uncalibrated
-    bg45v_3923: uncalibrated
-    bg45v_4027: uncalibrated
-    cube0_482: uncalibrated
-    mc86_621: uncalibrated
-    unidentified: uncalibrated
-
-  Eindringwiderstand:
-    bg30v_2872: calibrated    # always 0 (not active)
-    bg33v_5610: uncalibrated  # 0–3698 (raw)
-    bg45v_4027: uncalibrated  # 0–15198 (raw)
-    unidentified: uncalibrated # 0–11291 (raw)
-
-  Betondruck:
-    bg30v_2872: calibrated    # 0–3.6 bar ✓
-    unidentified: calibrated  # 0–10.9 bar ✓
-    bg33v_5610: uncalibrated  # 0–99039 (sentinel/raw)
-    bg45v_4027: uncalibrated  # 0–99106 (sentinel/raw)
-
-  Gesamtbetonmenge:
-    bg30v_2872: calibrated    # 0–6.2 m³ ✓
-    unidentified: calibrated  # 0–6.3 m³ ✓
-    bg33v_5610: uncalibrated  # 0–99991 (sentinel/raw)
-    bg45v_4027: uncalibrated  # 0–99991 (sentinel/raw)
-
-  Bohrgrenze:
-    bg42v_5925: calibrated    # 0
-    bg28h_6061: uncalibrated  # 195000 (raw)
-    bg33v_5610: uncalibrated  # 0–160000 (raw)
-    bg45v_4027: uncalibrated  # 0–515000 (raw)
-
-  Rohrlaenge:
-    bg42v_5925: calibrated    # 0
-    bg28h_6061: uncalibrated  # 19500 (raw)
-    bg33v_5610: uncalibrated  # 0–16000 (raw)
-    bg45v_4027: uncalibrated  # 0–26000 (raw)
-
-  Tiefe_Hauptwinde_GOK:
-    bg42v_5925: calibrated    # JSON: -38 to 6 m ✓; DAT: raw values up to 779000 (divisor issue)
-    bg28h_6061: uncalibrated  # 0–3196002 (raw)
-    bg33v_5610: uncalibrated  # -27 to 1803001 (raw)
-    bg45v_4027: uncalibrated  # 0–2885000 (raw)
-
-  Tiefe_Bohrrohr_GOK:
-    bg42v_5925: calibrated    # 0
-    bg45v_4027: calibrated    # 0
-    bg28h_6061: uncalibrated  # 0–9500010 (raw)
-    bg33v_5610: uncalibrated  # 0–6700000 (raw)
-
-  Pitch:
-    bg30v_2872: uncalibrated  # 0–3083 (raw)
-    bg33v_5610: uncalibrated  # 0–17580 (raw)
-    bg45v_4027: uncalibrated  # 0–45440 (raw)
-    unidentified: uncalibrated # 0–65000 (raw)
-
-  Drehrate:
-    bg33v_5610: uncalibrated  # 0–9999 (raw / sentinel)
-    bg45v_4027: uncalibrated  # 0–999.9 (raw / sentinel)
-    unidentified: uncalibrated # 0–999.9 (raw / sentinel)
-
-  Susp.-Druck unten:
-    # Needs per-machine check, some show 0–9900
-    bg45v_3923: calibrated
-    cube0_482: calibrated
-    mc86_621: calibrated
+  - depth
+  - feed_depth
+  - depth_winch_2
+  - torque
+  - torque_stages
+  - rotation_direction
+  - rotation_direction_cutter_left
+  - rotation_direction_cutter_right
+  - pressure_cutter_left
+  - pressure_cutter_right
+  - pump_pressure
+  - pump_pressure_1
+  - pump_pressure_2
+  - pump_pressure_3
+  - pump_pressure_4
+  - rope_force
+  - rope_force_main_winch
+  - inclination_x
+  - inclination_x_mast
+  - surcharge_load
+  - leak_oil_pressure
+  - temperature_cutter_left
+  - suspension_pressure
+  - suspension_pressure_2
+  - suspension_flow
+  - suspension_flow_2
+  - suspension_volume
+  - suspension_volume_2
+  - suspension_volume_total
+  - volume_per_meter
+  - rotation_speed
+  - torque_percent
+  - feed_force_scm
+  - current_channel_1
+  - tool_casing_bottom_diff
 
 # ═══ Sentinel values to treat as NaN ═══
+# These are known invalid/overflow markers found across DAT and JSON files.
+# Detected empirically from value distributions.
 sentinel_values:
+  # Common overflow / "no data" markers
   - 9999
   - 9999.0
   - 9999.9
+  - 999.9
+  # Machine-specific overflow patterns (found in concrete_pressure, total_concrete_volume, etc.)
   - 99991
   - 99991.0
   - 99039
   - 99039.0
   - 99106
   - 99106.0
-  - 999.9
+  - 99000
+  - 99000.0
+  - 99044
+  - 99044.0
+  - 99064
+  - 99064.0
+  # 16-bit overflow markers
   - 65435
   - 65000
+  # Near-max values seen as overflow in rope_force_auxiliary_winch etc.
+  - 9900
+  - 9900.0

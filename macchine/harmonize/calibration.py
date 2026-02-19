@@ -19,56 +19,56 @@ import yaml
 # Physical plausible ranges for calibrated sensors (min, max).
 # Values outside these ranges indicate uncalibrated or corrupted data.
 PHYSICAL_RANGES: dict[str, tuple[float, float]] = {
-    "Tiefe": (-200, 200),
-    "Vorschub Tiefe": (-200, 200),
-    "Tiefe Winde 2": (-200, 200),
-    "Tiefe_Hauptwinde_GOK": (-200, 200),
-    "Tiefe_Bohrrohr_GOK": (-200, 200),
-    "Neigung X": (-90, 90),
-    "Neigung Y": (-90, 90),
-    "Neigung X Mast": (-90, 90),
-    "Neigung Y Mast": (-90, 90),
-    "Abweichung X": (-5000, 5000),
-    "Abweichung Y": (-5000, 5000),
-    "Messpunktabw. X": (-50000, 50000),
-    "Messpunktabw. Y": (-50000, 50000),
-    "Druck Pumpe": (0, 1000),
-    "Druck Pumpe 1": (0, 1000),
-    "Druck Pumpe 2": (0, 1000),
-    "Druck Pumpe 3": (0, 1000),
-    "Druck Pumpe 4": (0, 1000),
-    "Druck FRL": (0, 500),
-    "Druck FRR": (0, 500),
-    "KDK Druck": (0, 1000),
-    "Betondruck": (0, 50),
-    "Drehmoment": (0, 120),
-    "DrehmomentkNm": (0, 1000),
-    "DrehmomentProzent": (0, 120),
-    "Seilkraft": (0, 200),
-    "Seilkraft Hauptwinde": (0, 1000),
-    "Seilkraft Hilfswinde": (0, 200),
-    "Seilkraft Fräswinde": (0, 200),
-    "Seilkraft Winde 2": (0, 200),
-    "Temperatur FRL": (-20, 150),
-    "Temperatur FRR": (-20, 150),
-    "Temp. Verteilergetriebe": (-20, 200),
-    "Oeldruck Getriebe links": (0, 50),
-    "Oeldruck Getriebe rechts": (0, 50),
-    "Leckagedruck Getriebe links": (0, 20),
-    "Leckagedruck Getriebe rechts": (0, 20),
-    "Leckoeldruck": (0, 50),
-    "Wassergehalt Getriebeoel FRL": (0, 100),
-    "Wassergehalt Getriebeoel FRR": (0, 100),
-    "Drehzahl": (0, 100),
-    "Drehzahl FRL": (0, 100),
-    "Drehzahl FRR": (0, 100),
-    "KDK Drehzahl": (0, 100),
-    "Auflast": (0, 200),
-    "Vorschub-KraftPM": (-200, 200),
-    "Vorschub-Kraft": (-200, 200),
-    "Pitch": (-90, 90),
-    "Drehrate": (-360, 360),
-    "Verdrehwinkel": (-360, 360),
+    "depth": (-200, 200),
+    "feed_depth": (-200, 200),
+    "depth_winch_2": (-200, 200),
+    "depth_main_winch_gok": (-200, 200),
+    "depth_casing_gok": (-200, 200),
+    "inclination_x": (-90, 90),
+    "inclination_y": (-90, 90),
+    "inclination_x_mast": (-90, 90),
+    "inclination_y_mast": (-90, 90),
+    "deviation_x": (-5000, 5000),
+    "deviation_y": (-5000, 5000),
+    "measuring_point_deviation_x": (-50000, 50000),
+    "measuring_point_deviation_y": (-50000, 50000),
+    "pump_pressure": (0, 1000),
+    "pump_pressure_1": (0, 1000),
+    "pump_pressure_2": (0, 1000),
+    "pump_pressure_3": (0, 1000),
+    "pump_pressure_4": (0, 1000),
+    "pressure_cutter_left": (0, 500),
+    "pressure_cutter_right": (0, 500),
+    "kdk_pressure": (0, 1000),
+    "concrete_pressure": (0, 50),
+    "torque": (0, 120),
+    "torque_knm": (0, 1000),
+    "torque_percent": (0, 120),
+    "rope_force": (0, 200),
+    "rope_force_main_winch": (0, 1000),
+    "rope_force_auxiliary_winch": (0, 200),
+    "rope_force_cutter_winch": (0, 200),
+    "rope_force_winch_2": (0, 200),
+    "temperature_cutter_left": (-20, 150),
+    "temperature_cutter_right": (-20, 150),
+    "temperature_distribution_gearbox": (-20, 200),
+    "oil_pressure_gearbox_left": (0, 50),
+    "oil_pressure_gearbox_right": (0, 50),
+    "leakage_pressure_gearbox_left": (0, 20),
+    "leakage_pressure_gearbox_right": (0, 20),
+    "leak_oil_pressure": (0, 50),
+    "water_content_gearbox_oil_left": (0, 100),
+    "water_content_gearbox_oil_right": (0, 100),
+    "rotation_speed": (0, 100),
+    "rotation_speed_cutter_left": (0, 100),
+    "rotation_speed_cutter_right": (0, 100),
+    "kdk_rotation_speed": (0, 100),
+    "surcharge_load": (0, 200),
+    "feed_force": (-200, 200),
+    "feed_force_scm": (-200, 200),
+    "pitch": (-90, 90),
+    "rotation_rate": (-360, 360),
+    "twist_angle": (-360, 360),
 }
 
 _CALIBRATION_PATH = Path(__file__).parent / "calibration_status.yaml"
@@ -77,81 +77,81 @@ _DAT_CORRECTIONS_PATH = Path(__file__).parent / "dat_corrections.yaml"
 
 # Known units for calibrated sensors (sensor_name -> unit string)
 SENSOR_UNITS = {
-    "Tiefe": "m",
-    "Vorschub Tiefe": "m",
-    "Tiefe Winde 2": "m",
-    "Tiefe_Hauptwinde_GOK": "m",
-    "Tiefe_Bohrrohr_GOK": "m",
-    "Drehmoment": "%",
-    "DrehmomentkNm": "kNm",
-    "DrehmomentProzent": "%",
-    "Drehmomentstufen": "stage",
-    "Drehrichtung": "",
-    "Drehrichtung FRL": "",
-    "Drehrichtung FRR": "",
-    "Druck FRL": "bar",
-    "Druck FRR": "bar",
-    "Druck Pumpe": "bar",
-    "Druck Pumpe 1": "bar",
-    "Druck Pumpe 2": "bar",
-    "Druck Pumpe 3": "bar",
-    "Druck Pumpe 4": "bar",
-    "KDK Druck": "bar",
-    "Betondruck": "bar",
-    "Susp.-Druck": "bar",
-    "Susp.-Druck2": "bar",
-    "Susp.-Druck unten": "bar",
-    "Oeldruck Getriebe links": "bar",
-    "Oeldruck Getriebe rechts": "bar",
-    "Leckagedruck Getriebe links": "bar",
-    "Leckagedruck Getriebe rechts": "bar",
-    "Leckoeldruck": "bar",
-    "Seilkraft": "t",
-    "Seilkraft Hauptwinde": "t",
-    "Seilkraft Hilfswinde": "t",
-    "Seilkraft Fräswinde": "t",
-    "Seilkraft Winde 2": "t",
-    "Neigung X": "deg",
-    "Neigung Y": "deg",
-    "Neigung X Mast": "deg",
-    "Neigung Y Mast": "deg",
-    "Auflast": "t",
-    "Temperatur FRL": "\u00b0C",
-    "Temperatur FRR": "\u00b0C",
-    "Temp. Verteilergetriebe": "\u00b0C",
-    "Wassergehalt Getriebeoel FRL": "%",
-    "Wassergehalt Getriebeoel FRR": "%",
-    "Abweichung X": "mm",
-    "Abweichung Y": "mm",
-    "Messpunktabw. X": "mm",
-    "Messpunktabw. Y": "mm",
-    "Drehzahl": "rpm",
-    "Drehzahl FRL": "rpm",
-    "Drehzahl FRR": "rpm",
-    "KDK Drehzahl": "rpm",
-    "Vorschub-KraftPM": "kN",
-    "Vorschub-Kraft": "kN",
-    "Eindringwiderstand": "kN/m",
-    "Susp.-Durchfl.": "l/min",
-    "Susp.-Durchfl.2": "l/min",
-    "Susp.-Mg": "m\u00b3",
-    "Susp.-Mg2": "m\u00b3",
-    "Susp.-Mg1+2": "m\u00b3",
-    "Menge pro Meter": "l/m",
-    "Betondurchfluss": "l/min",
-    "Betonmenge": "m\u00b3",
-    "Gesamtbetonmenge": "m\u00b3",
-    "Durchfluss Pumpe": "l/min",
-    "Durchfluss Ruecklauf": "l/min",
-    "Durchfluss Vorlauf": "l/min",
-    "Vorschubgeschwindigkeit": "mm/s",
-    "Strom Kanal 1": "A",
-    "Bohrgrenze": "m",
-    "Rohrlaenge": "m",
-    "Diff_Werkzeug_Bohrrohrunterkante": "m",
-    "Pitch": "deg",
-    "Drehrate": "deg/s",
-    "Verdrehwinkel": "deg",
+    "depth": "m",
+    "feed_depth": "m",
+    "depth_winch_2": "m",
+    "depth_main_winch_gok": "m",
+    "depth_casing_gok": "m",
+    "torque": "%",
+    "torque_knm": "kNm",
+    "torque_percent": "%",
+    "torque_stages": "stage",
+    "rotation_direction": "",
+    "rotation_direction_cutter_left": "",
+    "rotation_direction_cutter_right": "",
+    "pressure_cutter_left": "bar",
+    "pressure_cutter_right": "bar",
+    "pump_pressure": "bar",
+    "pump_pressure_1": "bar",
+    "pump_pressure_2": "bar",
+    "pump_pressure_3": "bar",
+    "pump_pressure_4": "bar",
+    "kdk_pressure": "bar",
+    "concrete_pressure": "bar",
+    "suspension_pressure": "bar",
+    "suspension_pressure_2": "bar",
+    "suspension_pressure_bottom": "bar",
+    "oil_pressure_gearbox_left": "bar",
+    "oil_pressure_gearbox_right": "bar",
+    "leakage_pressure_gearbox_left": "bar",
+    "leakage_pressure_gearbox_right": "bar",
+    "leak_oil_pressure": "bar",
+    "rope_force": "t",
+    "rope_force_main_winch": "t",
+    "rope_force_auxiliary_winch": "t",
+    "rope_force_cutter_winch": "t",
+    "rope_force_winch_2": "t",
+    "inclination_x": "deg",
+    "inclination_y": "deg",
+    "inclination_x_mast": "deg",
+    "inclination_y_mast": "deg",
+    "surcharge_load": "t",
+    "temperature_cutter_left": "\u00b0C",
+    "temperature_cutter_right": "\u00b0C",
+    "temperature_distribution_gearbox": "\u00b0C",
+    "water_content_gearbox_oil_left": "%",
+    "water_content_gearbox_oil_right": "%",
+    "deviation_x": "mm",
+    "deviation_y": "mm",
+    "measuring_point_deviation_x": "mm",
+    "measuring_point_deviation_y": "mm",
+    "rotation_speed": "rpm",
+    "rotation_speed_cutter_left": "rpm",
+    "rotation_speed_cutter_right": "rpm",
+    "kdk_rotation_speed": "rpm",
+    "feed_force": "kN",
+    "feed_force_scm": "kN",
+    "penetration_resistance": "kN/m",
+    "suspension_flow": "l/min",
+    "suspension_flow_2": "l/min",
+    "suspension_volume": "m\u00b3",
+    "suspension_volume_2": "m\u00b3",
+    "suspension_volume_total": "m\u00b3",
+    "volume_per_meter": "l/m",
+    "concrete_flow": "l/min",
+    "concrete_volume": "m\u00b3",
+    "total_concrete_volume": "m\u00b3",
+    "pump_flow": "l/min",
+    "return_flow": "l/min",
+    "feed_flow": "l/min",
+    "feed_speed": "mm/s",
+    "current_channel_1": "A",
+    "drilling_limit": "m",
+    "casing_length": "m",
+    "tool_casing_bottom_diff": "m",
+    "pitch": "deg",
+    "rotation_rate": "deg/s",
+    "twist_angle": "deg",
 }
 
 
@@ -251,26 +251,17 @@ def get_unit(sensor_name: str, machine_slug: str) -> str:
 
 
 def get_english_name(sensor_name: str) -> str:
-    """Get the English canonical name for a German sensor name."""
-    defs = _load_sensor_defs()
-    entry = defs.get(sensor_name)
-    if entry:
-        # Convert snake_case to Title Case for display
-        canonical = entry["canonical"]
-        return canonical.replace("_", " ").title()
-    return sensor_name
+    """Get a human-readable title from a canonical English sensor name."""
+    return sensor_name.replace("_", " ").title()
 
 
 def get_display_label(sensor_name: str) -> str:
-    """Format sensor name as 'English Name (German)' for plot labels."""
-    english = get_english_name(sensor_name)
-    if english != sensor_name:
-        return f"{english} ({sensor_name})"
-    return sensor_name
+    """Format sensor name as a human-readable title for plot labels."""
+    return sensor_name.replace("_", " ").title()
 
 
 def get_axis_label(sensor_name: str, machine_slug: str) -> str:
-    """Get a full axis label: 'English Name (German)\n[unit]'."""
+    """Get a full axis label: 'Display Name\n[unit]'."""
     display = get_display_label(sensor_name)
     unit = get_unit(sensor_name, machine_slug)
     if unit:
@@ -297,6 +288,84 @@ def clean_sentinels_df(df: pd.DataFrame) -> pd.DataFrame:
         if mask.any():
             df.loc[mask, col] = np.nan
     return df
+
+
+# ── Quality flags ─────────────────────────────────────────────────────────
+
+# Quality flag values (int8 for memory efficiency)
+QC_OK = np.int8(0)
+QC_SENTINEL = np.int8(1)
+QC_OUT_OF_RANGE = np.int8(2)
+
+
+def clean_and_flag_df(
+    df: pd.DataFrame,
+    machine_slug: str = "",
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Clean sentinels and flag data quality for every numeric cell.
+
+    Returns
+    -------
+    cleaned_df : DataFrame
+        Copy of *df* with sentinel values replaced by NaN.
+    qc_df : DataFrame
+        Same shape as *df* (numeric columns only), dtype int8.
+        Cell values: QC_OK (0), QC_SENTINEL (1), QC_OUT_OF_RANGE (2).
+        Out-of-range flags are only set for sensors with known
+        PHYSICAL_RANGES; the values are NOT replaced in cleaned_df.
+    """
+    sentinels = set(get_sentinel_values())
+    cleaned = df.copy()
+    numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+    # Exclude timestamp from QC
+    numeric_cols = [c for c in numeric_cols if c != "timestamp"]
+
+    qc = pd.DataFrame(QC_OK, index=df.index, columns=numeric_cols, dtype=np.int8)
+
+    for col in numeric_cols:
+        series = df[col]
+
+        # Sentinel detection
+        sentinel_mask = series.isin(sentinels)
+        if sentinel_mask.any():
+            qc.loc[sentinel_mask, col] = QC_SENTINEL
+            cleaned.loc[sentinel_mask, col] = np.nan
+
+        # Out-of-range detection (only for sensors with known ranges)
+        if col in PHYSICAL_RANGES:
+            lo, hi = PHYSICAL_RANGES[col]
+            non_sentinel = ~sentinel_mask & series.notna()
+            oor_mask = non_sentinel & ((series < lo) | (series > hi))
+            if oor_mask.any():
+                qc.loc[oor_mask, col] = QC_OUT_OF_RANGE
+
+    return cleaned, qc
+
+
+def qc_summary(qc_df: pd.DataFrame) -> pd.DataFrame:
+    """Summarise a QC flags DataFrame into one row per sensor.
+
+    Returns a DataFrame with columns:
+        sensor, n_total, n_ok, n_sentinel, n_out_of_range,
+        pct_sentinel, pct_out_of_range
+    """
+    rows = []
+    for col in qc_df.columns:
+        counts = qc_df[col].value_counts()
+        n_total = len(qc_df)
+        n_sent = int(counts.get(QC_SENTINEL, 0))
+        n_oor = int(counts.get(QC_OUT_OF_RANGE, 0))
+        n_ok = n_total - n_sent - n_oor
+        rows.append({
+            "sensor": col,
+            "n_total": n_total,
+            "n_ok": n_ok,
+            "n_sentinel": n_sent,
+            "n_out_of_range": n_oor,
+            "pct_sentinel": round(100 * n_sent / n_total, 1) if n_total else 0,
+            "pct_out_of_range": round(100 * n_oor / n_total, 1) if n_total else 0,
+        })
+    return pd.DataFrame(rows)
 
 
 def detect_dat_divisor(values: list[float | None], sensor_name: str) -> int:

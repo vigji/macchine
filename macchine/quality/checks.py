@@ -23,17 +23,17 @@ from macchine.storage.catalog import _classify_pile_continuity
 # Maps sensor name prefix → absolute threshold (in calibrated units).
 # ---------------------------------------------------------------------------
 ZEROING_THRESHOLDS: dict[str, float] = {
-    "Tiefe": 0.5,               # m — depth should start near surface
-    "Vorschub Tiefe": 0.5,      # m
-    "Tiefe Winde 2": 0.5,       # m
-    "Tiefe_Hauptwinde_GOK": 0.5,
-    "Tiefe_Bohrrohr_GOK": 0.5,
-    "Neigung X": 2.0,           # deg — mast inclination near vertical
-    "Neigung Y": 2.0,
-    "Neigung X Mast": 2.0,
-    "Neigung Y Mast": 2.0,
-    "Abweichung X": 50.0,       # mm — deviation from target
-    "Abweichung Y": 50.0,
+    "depth": 0.5,               # m — depth should start near surface
+    "feed_depth": 0.5,          # m
+    "depth_winch_2": 0.5,       # m
+    "depth_main_winch_gok": 0.5,
+    "depth_casing_gok": 0.5,
+    "inclination_x": 2.0,       # deg — mast inclination near vertical
+    "inclination_y": 2.0,
+    "inclination_x_mast": 2.0,
+    "inclination_y_mast": 2.0,
+    "deviation_x": 50.0,        # mm — deviation from target
+    "deviation_y": 50.0,
 }
 
 

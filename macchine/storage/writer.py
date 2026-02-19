@@ -12,6 +12,7 @@ import pyarrow.parquet as pq
 from tqdm import tqdm
 
 from macchine.config import METADATA_DIR, TRACE_INDEX_FILE, TRACES_DIR
+from macchine.harmonize.sensor_map import get_canonical_name
 from macchine.models.core import SensorSeries, TraceMetadata
 from macchine.parsers.json_parser import parse_json_file
 
@@ -36,7 +37,7 @@ def trace_to_dataframe(metadata: TraceMetadata, sensors: list[SensorSeries]) -> 
 
     data = {"timestamp": timestamps}
     for s in sensors:
-        col_name = s.sensor_name
+        col_name = get_canonical_name(s.sensor_name)
         # Handle duplicate sensor names by appending unit
         if col_name in data:
             col_name = f"{col_name}_{s.unit}"

@@ -392,32 +392,42 @@ def main():
     translation = load_sensor_translation_table()
     print(f"\n{len(translation)} sensors mapped in sensor_definitions.yaml")
 
-    # Check which columns in actual data are NOT in the translation table
+    # Check which columns in actual data use English canonical names
     print("\nChecking actual parquet column labels...")
     actual_columns = check_column_labels(output_dir)
-    unmapped = []
-    mapped = []
+    english_names = {info["english"] for info in translation.values()}
+    german_names = set(translation.keys())
+
+    english_cols = []
+    german_cols = []
+    unknown_cols = []
     for col in sorted(actual_columns.keys()):
         if col in ("timestamp",):
             continue
-        if col in translation:
-            mapped.append(col)
+        if col in english_names:
+            english_cols.append(col)
+        elif col in german_names:
+            german_cols.append(col)
         else:
-            unmapped.append(col)
+            unknown_cols.append(col)
 
     print(f"\nColumns found in data: {len(actual_columns)}")
-    print(f"  Mapped to English: {len(mapped)}")
-    print(f"  NOT in translation table: {len(unmapped)}")
-    if unmapped:
-        print("\n  UNMAPPED COLUMNS (German labels still in data):")
-        for col in unmapped:
+    print(f"  English canonical: {len(english_cols)}")
+    print(f"  Still German: {len(german_cols)}")
+    print(f"  Unknown: {len(unknown_cols)}")
+    if german_cols:
+        print("\n  GERMAN COLUMNS STILL IN DATA (need migration):")
+        for col in german_cols:
+            examples = actual_columns[col]
+            print(f"    '{col}' — found in {examples[0]}")
+    if unknown_cols:
+        print("\n  UNKNOWN COLUMNS (not in translation table):")
+        for col in unknown_cols:
             examples = actual_columns[col]
             print(f"    '{col}' — found in {examples[0]}")
 
-    # Check if ALL columns are still in German
-    has_english = any(col in translation.values() for col in actual_columns)
-    all_german = all(col in translation or col == "timestamp" for col in actual_columns)
-    print(f"\n  Data columns are in: {'GERMAN (original)' if all_german else 'MIXED/ENGLISH'}")
+    all_english = len(german_cols) == 0 and len(unknown_cols) == 0
+    print(f"\n  Data columns are in: {'ENGLISH (canonical)' if all_english else 'MIXED — run migration script'}")
 
     # ── 2. Calibration status per combination ───────────────────────────────
     print("\n" + "─" * 80)

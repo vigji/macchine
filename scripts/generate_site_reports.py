@@ -1,4 +1,4 @@
-"""Generate per-site data quality reports.
+ """Generate per-site data quality reports.
 
 For each site, produces a markdown report with embedded figures covering:
 coverage, calibration, plausibility, zeroing, element naming, and sample plots.
@@ -385,7 +385,7 @@ def generate_site_report(
                 continue
         else:
             sensor = None
-            for candidate in ("Tiefe", "Drehmoment", "Druck Pumpe 1", "Seilkraft"):
+            for candidate in ("depth", "torque", "pump_pressure_1", "rope_force"):
                 if candidate in df.columns:
                     sensor = candidate
                     break
@@ -409,10 +409,10 @@ def generate_site_report(
         # Pick sensors from different categories
         profile_sensors = []
         for candidates in [
-            ["Drehmoment", "DrehmomentkNm"],
-            ["Druck Pumpe 1", "Druck Pumpe", "KDK Druck"],
-            ["Seilkraft", "Seilkraft Hauptwinde"],
-            ["Drehzahl", "Drehzahl FRL"],
+            ["torque", "torque_knm"],
+            ["pump_pressure_1", "pump_pressure", "kdk_pressure"],
+            ["rope_force", "rope_force_main_winch"],
+            ["rotation_speed", "rotation_speed_cutter_left"],
         ]:
             for c in candidates:
                 if c in df.columns:
@@ -426,11 +426,11 @@ def generate_site_report(
     if not depth_done and loaded_traces:
         # Fall back to any trace with depth
         for tid, (df, row) in loaded_traces.items():
-            if "Tiefe" not in df.columns:
+            if "depth" not in df.columns:
                 continue
             machine_slug = str(row["machine_slug"])
             name = str(row.get("element_name", tid[:20]))
-            numeric = [c for c in df.select_dtypes(include=[np.number]).columns if c not in ("timestamp", "Tiefe")]
+            numeric = [c for c in df.select_dtypes(include=[np.number]).columns if c not in ("timestamp", "depth")]
             if numeric:
                 plot_depth_profile(df, machine_slug, name, numeric[:4], fig_dir / "depth_profile.png")
                 break

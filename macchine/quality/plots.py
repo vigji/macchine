@@ -78,7 +78,7 @@ def plot_depth_profile(
 ) -> None:
     """Sensor values vs depth (y-axis inverted), up to 4 subplots."""
     depth_col = None
-    for candidate in ("Tiefe", "Vorschub Tiefe", "Tiefe_Hauptwinde_GOK", "Tiefe_Bohrrohr_GOK"):
+    for candidate in ("depth", "feed_depth", "depth_main_winch_gok", "depth_casing_gok"):
         if candidate in trace_df.columns:
             depth_col = candidate
             break
