@@ -1,4 +1,4 @@
- """Generate per-site data quality reports.
+"""Generate per-site data quality reports.
 
 For each site, produces a markdown report with embedded figures covering:
 coverage, calibration, plausibility, zeroing, element naming, and sample plots.
