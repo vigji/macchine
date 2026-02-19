@@ -262,10 +262,8 @@ def _parse_data_lines(
     num_fields = len(field_defs)
     data_length = len(dat_sections[0]) - 3  # minus "DAT" prefix
 
-    # Determine field widths using shifted-meta, with legacy fallback
+    # Determine field widths using shifted-meta formula
     widths = _compute_field_widths(field_defs, data_length)
-    if not widths:
-        widths = _estimate_field_widths(field_defs, data_length)
     if not widths:
         logger.debug("Could not determine field widths for %d fields, %d chars", num_fields, data_length)
         return []
@@ -438,48 +436,3 @@ def _compute_divisors(field_defs: list[DatFieldDef]) -> list[int]:
         divisors[i] = field_defs[i].divisor or 1
 
     return divisors
-
-
-# Legacy function — kept for backward compatibility with scripts that import it.
-def _estimate_field_widths(field_defs: list[DatFieldDef], data_length: int) -> list[int] | None:
-    """Estimate field widths from header metadata (legacy heuristic).
-
-    This is the old approach that uses meta[2] as the base width of each
-    field (incorrectly — meta[2] actually encodes the width of the NEXT
-    field). Kept as a fallback if _compute_field_widths returns None.
-    """
-    num_fields = len(field_defs)
-
-    base_widths = []
-    for f in field_defs:
-        if f.is_direction:
-            base_widths.append(1)
-        elif f.meta and len(f.meta) > 2:
-            base_widths.append(f.meta[2])
-        else:
-            base_widths.append(3)
-
-    base_total = sum(base_widths)
-
-    if base_total == data_length:
-        return base_widths
-
-    adjusted = list(base_widths)
-    for i, f in enumerate(field_defs):
-        if f.signed and not f.is_direction:
-            adjusted[i] += 1
-
-    if sum(adjusted) == data_length:
-        return adjusted
-
-    diff = data_length - sum(adjusted)
-    if abs(diff) <= num_fields:
-        non_dir = [i for i, f in enumerate(field_defs) if not f.is_direction]
-        if non_dir and diff != 0:
-            step = 1 if diff > 0 else -1
-            for j in range(abs(diff)):
-                adjusted[non_dir[j % len(non_dir)]] += step
-        if sum(adjusted) == data_length:
-            return adjusted
-
-    return None
